@@ -11,7 +11,7 @@ public class PlayerControler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -24,6 +24,5 @@ public class PlayerControler : MonoBehaviour
         transform.position += moveInput * (moveSpeed * Time.deltaTime);
         
         anim.SetBool("isMoving", moveInput != Vector3.zero);
-
     }
 }
