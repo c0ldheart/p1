@@ -5,7 +5,7 @@ using UnityGameFramework.Runtime;
 
 namespace p1
 {
-    public class Player : Entity
+    public class Player
     {
         // Start is called before the first frame update
         void Start()
