@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField]
     private Transform _playerTransform;
 
     // Start is called before the first frame update
     void Start()
     {
+        // TODO: 执行顺序不一定，全部用框架Entity
         _playerTransform = FindObjectOfType<PlayerControler>().transform;
     }
 

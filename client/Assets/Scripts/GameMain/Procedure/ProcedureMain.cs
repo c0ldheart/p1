@@ -12,6 +12,8 @@ namespace p1
             base.OnEnter(procedureOwner);
             Log.Info("ProcedureMain OnEnter");
 
+            EntityComponent entityComponent = GameEntry.GetComponent<EntityComponent>();
+            entityComponent.ShowEntity<EntityPlayer>(1, "Assets/Prefabs/Entities/Players/EntityPlayer.prefab", "PlayerGroup");
         }
     
         protected override void OnUpdate(ProcedureOwner procedureOwner, float elapseSeconds, float realElapseSeconds)
