@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace p1
 {
-    public class PlayerData : EntityData
+    public class EntityDataPlayer : EntityData
     {
         [SerializeField]
         private float _moveSpeed = 5;
         
-        public PlayerData(int entityId, int typeId) : base(entityId, typeId)
+        public EntityDataPlayer(int entityId, int typeId) : base()
         {
             
         }
