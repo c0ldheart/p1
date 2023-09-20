@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace p1
 {
-    public class EntityDataPlayer : EntityData
+    public class EntityDataEnemy : EntityData
     {
         [SerializeField]
-        private float _moveSpeed = 5;
+        private float _moveSpeed = 1;
         
         [SerializeField]
         private Animator _anim;
-        public EntityDataPlayer() : base()
+        public EntityDataEnemy() : base()
         {
             
         }
