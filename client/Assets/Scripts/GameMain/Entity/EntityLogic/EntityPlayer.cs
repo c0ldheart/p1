@@ -7,10 +7,7 @@ namespace p1
 {
     public class EntityPlayer : EntityLogic
     {
-        
-        [SerializeField]
         private EntityDataPlayer _entityDataPlayer = null;
-
         protected override void OnInit(object userData)
         {
             base.OnInit(userData);
@@ -33,6 +30,10 @@ namespace p1
 
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
         {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                _entityDataPlayer.GetDamage(10);
+            }
             MoveControl(elapseSeconds);
         }
         private void MoveControl(float elapseSeconds)
