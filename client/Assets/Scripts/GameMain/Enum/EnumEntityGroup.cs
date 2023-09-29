@@ -13,5 +13,7 @@ namespace p1
         /// 敌人
         /// </summary>
         Enemy = 2,
+        
+        Camera = 3,
     }
 }
