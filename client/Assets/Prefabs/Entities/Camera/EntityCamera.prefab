@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5555550465692887103}
   - component: {fileID: 3548529011247597255}
-  - component: {fileID: 3626171651980951796}
   m_Layer: 0
   m_Name: EntityCamera
   m_TagString: MainCamera
@@ -76,15 +75,3 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!114 &3626171651980951796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4122865739503072563}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78764adc1acf49be925c5219e51f7ebd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

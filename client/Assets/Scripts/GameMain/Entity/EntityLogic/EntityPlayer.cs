@@ -7,7 +7,7 @@ namespace p1
 {
     public class EntityPlayer : EntityLogic
     {
-        private EntityDataPlayer _entityDataPlayer = null;
+        private EntityDataPlayer _entityDataPlayer;
         protected override void OnInit(object userData)
         {
             base.OnInit(userData);
@@ -43,8 +43,17 @@ namespace p1
             moveInput.y = Input.GetAxisRaw("Vertical");
             moveInput.Normalize();
             transform.position += moveInput * (_entityDataPlayer.MoveSpeed * elapseSeconds);
-        
             _entityDataPlayer.Anim.SetBool("isMoving", moveInput != Vector3.zero);
+        }
+        
+        public void GetDamage(int damage)
+        {
+            if (_entityDataPlayer == null)
+            {
+                Debug.LogError("in GetDamage : _entityDataPlayer is null");
+                return;
+            }
+            _entityDataPlayer.GetDamage(damage);
         }
     } 
 }
