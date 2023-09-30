@@ -1,18 +1,25 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using GameFramework;
+using GameFramework.Event;
 using UnityEngine;
 using UnityGameFramework.Runtime;
+using GameUtils;
+using UnityEngine.EventSystems;
 
 namespace p1
 {
     public class EntityPlayer : EntityLogic
     {
         private EntityDataPlayer _entityDataPlayer;
+        
+        public EntityDataPlayer EntityDataPlayer => _entityDataPlayer;
         protected override void OnInit(object userData)
         {
             base.OnInit(userData);
         }
-
+        
         protected override void OnShow(object userData)
         {
             base.OnShow(userData);
@@ -25,7 +32,6 @@ namespace p1
             }
 
             _entityDataPlayer.Anim = GetComponent<Animator>();
-
         }
 
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
@@ -53,8 +59,14 @@ namespace p1
                 Debug.LogError("in GetDamage : _entityDataPlayer is null");
                 return;
             }
+            
             _entityDataPlayer.GetDamage(damage);
+            EventComponent eventComponent = GameEntry.GetComponent<EventComponent>();
+            PostDamageEventArgs args = new PostDamageEventArgs(damage);
+            eventComponent.Fire(this, args);
         }
-    } 
+        
+    }
+    
 }
 

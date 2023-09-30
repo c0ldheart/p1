@@ -7,7 +7,7 @@ namespace p1
     {
         [SerializeField]
         private float _moveSpeed = 5;
-        private HealthPoint _curHealthPoint = new(100, 100);
+        private HealthPoint _healthPoint = new(100, 100);
         
         [SerializeField]
         private Animator _anim;
@@ -19,11 +19,10 @@ namespace p1
             set => _anim = value;
             get => _anim;
         }
-        public HealthPoint CurHealthPoint => _curHealthPoint;
+        public HealthPoint HealthPoint => _healthPoint;
         public void GetDamage(int damage)
         {
-            _curHealthPoint.Minus(damage);
-            Debug.Log(_curHealthPoint.Value);
+            _healthPoint.Minus(damage);
         }
     }
 }

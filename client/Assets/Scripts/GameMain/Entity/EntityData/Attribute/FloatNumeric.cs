@@ -115,7 +115,7 @@ namespace p1
             Update();
         }
 
-        public new void Update()
+        public void Update()
         {
             var value1 = baseValue;
             var value2 = (value1 + add) * (100 + pctAdd) / 100f;

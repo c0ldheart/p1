@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Reflection.Emit;
 
 namespace p1
 {
@@ -16,6 +17,16 @@ namespace p1
             {EnumEntityGroup.Player, "PlayerGroup"},
             {EnumEntityGroup.Enemy, "EnemyGroup"},
             {EnumEntityGroup.Camera, "CameraGroup"},
+        };
+
+        public static Dictionary<EnumUI, string> UIPath = new Dictionary<EnumUI, string>()
+        {
+            { EnumUI.PlayerInfo, "Assets/Prefabs/UI/Battle/UIPlayerInfo.prefab"},
+        };
+        
+        public static Dictionary<EnumUIGroup, string> UIGroup = new Dictionary<EnumUIGroup, string>()
+        {
+            { EnumUIGroup.PlayerInfo, "PlayerInfoGroup"},
         };
     }
 }
