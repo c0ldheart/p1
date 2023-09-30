@@ -31,7 +31,7 @@ namespace GameUtils
             set => _maxTime = value;
         }
 
-        public GameTimer(float maxTime, bool canRun)
+        public GameTimer(float maxTime, bool canRun = true)
         {
             if (maxTime <= 0)
             {

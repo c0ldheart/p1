@@ -5,14 +5,15 @@ namespace p1
 {
     public class EntityDataEnemy : EntityData
     {
+        
         [SerializeField]
         private float _moveSpeed = 1;
         
         [SerializeField]
         private Animator _anim;
-        public EntityDataEnemy() : base()
-        {
-            
+        public EntityDataEnemy(Vector3 pos) : base()
+        {   
+            m_Position = pos;
         }
         
         public float MoveSpeed => _moveSpeed;
