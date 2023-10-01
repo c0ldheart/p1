@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -55,6 +56,18 @@ namespace p1
 
             //每帧更新方向向量
             _dir = transform.position - _entityOwner.transform.position;
+        }
+        
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            Debug.Log("hit enemy");
+        
+            if (other.CompareTag("Enemy"))
+            {
+                // damage
+                EntityEnemy entityEnemy = other.GetComponent<EntityEnemy>();
+                entityEnemy.GetDamage(50);
+            }
         }
     }
 }

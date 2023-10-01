@@ -10,7 +10,7 @@ namespace p1
 {
     public class EntityEnemy : EntityLogic
     {
-        private EntityDataEnemy _entityDataEnemy = null;
+        public EntityDataEnemy EntityDataEnemy{ get; private set; }
         private Entity entityTarget;
         private GameTimer _attackTimer = new GameTimer(5, false);
 
@@ -25,8 +25,8 @@ namespace p1
 
             EntityComponent entityComponent = GameEntry.GetComponent<EntityComponent>();
             entityTarget = entityComponent.GetEntity(GameConst.EntityPath[EnumEntity.Player]);
-            _entityDataEnemy = userData as EntityDataEnemy;
-            transform.position = _entityDataEnemy.Position +
+            EntityDataEnemy = userData as EntityDataEnemy;
+            transform.position = EntityDataEnemy.Position +
                                  new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0f);
         }
 
@@ -50,7 +50,7 @@ namespace p1
                 Vector3 moveInput = new Vector3(0f, 0f, 0f);
                 moveInput = entityTarget.transform.position - transform.position;
                 moveInput.Normalize();
-                transform.position += moveInput * (_entityDataEnemy.MoveSpeed * elapseSeconds);
+                transform.position += moveInput * (EntityDataEnemy.MoveSpeed * elapseSeconds);
             }
         }
 
@@ -70,6 +70,28 @@ namespace p1
                 other.gameObject.GetComponent<EntityPlayer>().GetDamage(10);
                 _attackTimer.CanRun = true;
             }
+
+            if (other.gameObject.CompareTag("Weapon"))
+            {
+                Debug.Log("hit weapon");
+            }
+        }
+        
+        public void GetDamage(int damage)
+        {
+            if (EntityDataEnemy == null)
+            {
+                Debug.LogError("in GetDamage : EntityDataEnemy is null");
+                return;
+            }
+            EntityDataEnemy.GetDamage(damage);
+            if (EntityDataEnemy.HealthPoint.Value <= 0)
+            {
+                GameEntry.GetComponent<EntityComponent>().HideEntity(this.Entity.Id);
+            }
+            // EventComponent eventComponent = GameEntry.GetComponent<EventComponent>();
+            // PostDamageEventArgs args = new PostDamageEventArgs(damage);
+            // eventComponent.Fire(this, args);
         }
     }
 }
