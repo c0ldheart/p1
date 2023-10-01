@@ -26,8 +26,7 @@ namespace p1
             // 开局给个火球
             var fireballId = IdGenerator.Instance.GetNextID();
             entityComponent.ShowEntity<EntityFireBall>(fireballId, GameConst.EntityPath[EnumEntity.FireBall],
-                "WeaponGroup", userData: new EntityDataFireBall(entityDataPlayer.Position));
-            entityComponent.AttachEntity(fireballId, 1);
+                "WeaponGroup", userData: new EntityDataFireBall(entityDataPlayer.Position, 1));
 
             UIComponent uiComponent = GameEntry.GetComponent<UIComponent>();
             uiComponent.OpenUIForm(GameConst.UIPath[EnumUI.PlayerInfo], GameConst.UIGroup[EnumUIGroup.PlayerInfo]);
