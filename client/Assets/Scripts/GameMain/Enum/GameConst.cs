@@ -10,6 +10,7 @@ namespace p1
             {EnumEntity.Player, "Assets/Prefabs/Entities/Players/EntityPlayer.prefab"},
             {EnumEntity.Enemy1, "Assets/Prefabs/Entities/Enemies/EntityEnemy.prefab"},
             {EnumEntity.Camera, "Assets/Prefabs/Entities/Camera/EntityCamera.prefab"},
+            {EnumEntity.FireBall, "Assets/Prefabs/Entities/Weapons/EntityFireBall.prefab"},
         };
         
         public static Dictionary<EnumEntityGroup, string> EntityGroup = new Dictionary<EnumEntityGroup, string>()
@@ -17,6 +18,7 @@ namespace p1
             {EnumEntityGroup.Player, "PlayerGroup"},
             {EnumEntityGroup.Enemy, "EnemyGroup"},
             {EnumEntityGroup.Camera, "CameraGroup"},
+            {EnumEntityGroup.Weapon, "WeaponGroup"},
         };
 
         public static Dictionary<EnumUI, string> UIPath = new Dictionary<EnumUI, string>()

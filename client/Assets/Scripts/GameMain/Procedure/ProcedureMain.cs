@@ -20,22 +20,25 @@ namespace p1
 
             EntityDataPlayer entityDataPlayer = new EntityDataPlayer();
             EntityComponent entityComponent = GameEntry.GetComponent<EntityComponent>();
-            
-            entityComponent.ShowEntity<EntityPlayer>(1, GameConst.EntityPath[EnumEntity.Player], "PlayerGroup", userData:new EntityDataPlayer());
-            // entityComponent.ShowEntity<EntityEnemy>(2, GameConst.EntityPath[EnumEntity.Enemy1], "EnemyGroup", userData:new EntityDataEnemy());
-            
+
+            entityComponent.ShowEntity<EntityPlayer>(1, GameConst.EntityPath[EnumEntity.Player], "PlayerGroup",
+                userData: new EntityDataPlayer());
+            // 开局给个火球
+            var fireballId = IdGenerator.Instance.GetNextID();
+            entityComponent.ShowEntity<EntityFireBall>(fireballId, GameConst.EntityPath[EnumEntity.FireBall],
+                "WeaponGroup", userData: new EntityDataFireBall(entityDataPlayer.Position));
+            entityComponent.AttachEntity(fireballId, 1);
+
             UIComponent uiComponent = GameEntry.GetComponent<UIComponent>();
             uiComponent.OpenUIForm(GameConst.UIPath[EnumUI.PlayerInfo], GameConst.UIGroup[EnumUIGroup.PlayerInfo]);
 
             EnemySpawner.Instance.Init();
         }
-        
+
         protected override void OnUpdate(ProcedureOwner procedureOwner, float elapseSeconds, float realElapseSeconds)
         {
             base.OnUpdate(procedureOwner, elapseSeconds, realElapseSeconds);
             EnemySpawner.Instance.UpdateSpawner(elapseSeconds);
         }
-
-
     }
 }

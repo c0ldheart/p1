@@ -6,6 +6,7 @@ namespace p1
 {
     public class EnemySpawner : GlobalSingleton<EnemySpawner>
     {
+        [SerializeField]
         public int MaxEnemyCount = 100;
 
         private int _curEnemyCount => GameEntry.GetComponent<EntityComponent>()
@@ -65,7 +66,6 @@ namespace p1
                 spawnPoint.y = Random.Range(0f, 1f) > 0.5f ? _minSpawnPoint.position.y : _maxSpawnPoint.position.y;
             }
 
-            Debug.Log("spawn in: " + spawnPoint);
             return spawnPoint;
         }
     }
