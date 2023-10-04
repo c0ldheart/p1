@@ -66,7 +66,7 @@ namespace p1
             {
                 // damage
                 EntityEnemy entityEnemy = other.GetComponent<EntityEnemy>();
-                entityEnemy.GetDamage(50);
+                entityEnemy.GetDamage(50, 0.33f);
             }
         }
     }

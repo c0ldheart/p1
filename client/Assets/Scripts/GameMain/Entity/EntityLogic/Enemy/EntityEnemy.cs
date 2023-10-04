@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using GameFramework.Fsm;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 using Random = UnityEngine.Random;
@@ -13,10 +14,14 @@ namespace p1
         public EntityDataEnemy EntityDataEnemy{ get; private set; }
         private Entity entityTarget;
         private GameTimer _attackTimer = new GameTimer(5, false);
-
+        private IFsm<EntityEnemy> _fsm;
+        private static int SERIAL_ID = 0;
+        public Entity EntityTarget => entityTarget;
+        public float KnockBackTime = 0f;
         protected override void OnInit(object userData)
         {
             base.OnInit(userData);
+            // 不要在这里写逻辑，对象池复用不再调用OnInit
         }
 
         protected override void OnShow(object userData)
@@ -28,31 +33,30 @@ namespace p1
             EntityDataEnemy = userData as EntityDataEnemy;
             transform.position = EntityDataEnemy.Position +
                                  new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0f);
+            
+            // TODO: 考虑将诸如 newState()使用引用池技术, 且使得Entity在对象池复用FSM。
+            List<FsmState<EntityEnemy>> stateList = new List<FsmState<EntityEnemy>>()
+            {
+                new StateEnemyTrack(),
+                new StateEnemyKnockBack(),
+            };
+            _fsm = GameEntry.GetComponent<FsmComponent>().CreateFsm((SERIAL_ID++).ToString(), this, stateList);
+            _fsm.Start<StateEnemyTrack>();
         }
 
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
         {
-            CheckDistanceAndDestroy();
+            // CheckDistanceAndDestroy();
             
             _attackTimer.UpdateAsFinish(elapseSeconds, () =>
             {
                 _attackTimer.Reset();
                 _attackTimer.CanRun = false;
             });
-            MoveControl(elapseSeconds);
+            // MoveControl(elapseSeconds);
         }
 
-        private void MoveControl(float elapseSeconds)
-        {
-            // 自动追踪目标
-            if (entityTarget != null)
-            {
-                Vector3 moveInput = new Vector3(0f, 0f, 0f);
-                moveInput = entityTarget.transform.position - transform.position;
-                moveInput.Normalize();
-                transform.position += moveInput * (EntityDataEnemy.MoveSpeed * elapseSeconds);
-            }
-        }
+
 
         private void CheckDistanceAndDestroy()
         {
@@ -87,11 +91,24 @@ namespace p1
             EntityDataEnemy.GetDamage(damage);
             if (EntityDataEnemy.HealthPoint.Value <= 0)
             {
-                GameEntry.GetComponent<EntityComponent>().HideEntity(this.Entity.Id);
+                GameEntry.GetComponent<EntityComponent>().HideEntity(Entity.Id);
             }
             // EventComponent eventComponent = GameEntry.GetComponent<EventComponent>();
             // PostDamageEventArgs args = new PostDamageEventArgs(damage);
             // eventComponent.Fire(this, args);
         }
+        
+        public void GetDamage(int damage, float knockBackTime)
+        {
+            GetDamage(damage);
+            KnockBackTime = knockBackTime;
+        }
+        
+        protected override void OnHide(bool isShutdown, object userData)
+        {
+            base.OnHide(isShutdown, userData);
+            GameEntry.GetComponent<FsmComponent>().DestroyFsm(_fsm);
+        }
     }
+    
 }
