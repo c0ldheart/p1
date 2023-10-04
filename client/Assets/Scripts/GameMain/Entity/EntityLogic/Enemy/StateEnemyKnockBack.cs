@@ -33,7 +33,7 @@ namespace p1
             // TODO:优化击退表现
             Vector3 dir = fsm.Owner.transform.position - fsm.Owner.EntityTarget.transform.position;
             dir.Normalize();
-            fsm.Owner.transform.position += dir * (fsm.Owner.EntityDataEnemy.MoveSpeed * 2f * elapseSeconds);
+            fsm.Owner.transform.position += dir * (fsm.Owner.EntityDataEnemy.MoveSpeed * 4f * elapseSeconds);
         }
 
         protected override void OnLeave(IFsm<EntityEnemy> fsm, bool isShutdown)

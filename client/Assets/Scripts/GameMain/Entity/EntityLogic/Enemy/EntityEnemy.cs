@@ -81,7 +81,7 @@ namespace p1
             }
         }
         
-        public void GetDamage(int damage)
+        public void GetDamage(float damage)
         {
             if (EntityDataEnemy == null)
             {
@@ -98,10 +98,11 @@ namespace p1
             // eventComponent.Fire(this, args);
         }
         
-        public void GetDamage(int damage, float knockBackTime)
+        public void GetDamage(float damage, float knockBackTime)
         {
             GetDamage(damage);
             KnockBackTime = knockBackTime;
+            DamageNumberManager.Instance.SpawnDamageNumber(damage, transform.position);
         }
         
         protected override void OnHide(bool isShutdown, object userData)

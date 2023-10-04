@@ -52,7 +52,7 @@ namespace p1
             _entityDataPlayer.Anim.SetBool("isMoving", moveInput != Vector3.zero);
         }
         
-        public void GetDamage(int damage)
+        public void GetDamage(float damage)
         {
             if (_entityDataPlayer == null)
             {

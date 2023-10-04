@@ -8,9 +8,9 @@ namespace p1
         public static readonly int EventId = typeof(PostDamageEventArgs).GetHashCode();
         public EntityLogic Attacker { get; private set; }
         
-        public int Damage { get; private set; }
+        public float Damage { get; private set; }
 
-        public PostDamageEventArgs(int damage)
+        public PostDamageEventArgs(float damage)
         {
             Damage = damage;
         }

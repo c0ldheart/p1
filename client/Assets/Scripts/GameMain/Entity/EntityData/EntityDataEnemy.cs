@@ -23,9 +23,9 @@ namespace p1
             set => _anim = value;
             get => _anim;
         }
-        public void GetDamage(int damage)
+        public void GetDamage(float damage)
         {
-            _healthPoint.Minus(damage);
+            _healthPoint.Minus(Mathf.RoundToInt(damage));
         }
     }
 }
