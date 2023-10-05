@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityGameFramework.Runtime;
 using Random = UnityEngine.Random;
 using GameUtils;
+using UnityEngine.Events;
 
 namespace p1
 {
@@ -18,6 +19,13 @@ namespace p1
         private static int SERIAL_ID = 0;
         public Entity EntityTarget => entityTarget;
         public float KnockBackTime = 0f;
+        public UnityEvent<Collision2D> CollisionEnterEvent = new();
+
+        public GameTimer AttackTimer
+        {
+            get => _attackTimer;
+            set => _attackTimer = value;
+        }
         protected override void OnInit(object userData)
         {
             base.OnInit(userData);
@@ -69,16 +77,7 @@ namespace p1
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (other.gameObject.CompareTag("Player") && _attackTimer.Time == 0)
-            {
-                other.gameObject.GetComponent<EntityPlayer>().GetDamage(10);
-                _attackTimer.CanRun = true;
-            }
-
-            if (other.gameObject.CompareTag("Weapon"))
-            {
-                Debug.Log("hit weapon");
-            }
+            CollisionEnterEvent.Invoke(other);
         }
         
         public void GetDamage(float damage)

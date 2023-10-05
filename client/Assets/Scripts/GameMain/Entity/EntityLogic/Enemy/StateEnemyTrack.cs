@@ -6,6 +6,7 @@ namespace p1
 {
     public class StateEnemyTrack : FsmState<EntityEnemy>
     {
+        private EntityEnemy _owner;
         protected override void OnInit(IFsm<EntityEnemy> fsm)
         {
             base.OnInit(fsm);
@@ -14,6 +15,8 @@ namespace p1
         protected override void OnEnter(IFsm<EntityEnemy> fsm)
         {
             base.OnEnter(fsm);
+            _owner = fsm.Owner;
+            fsm.Owner.CollisionEnterEvent.AddListener(CollisionAttackPlayer);
         }
 
         protected override void OnUpdate(IFsm<EntityEnemy> fsm, float elapseSeconds, float realElapseSeconds)
@@ -29,6 +32,7 @@ namespace p1
         protected override void OnLeave(IFsm<EntityEnemy> fsm, bool isShutdown)
         {
             base.OnLeave(fsm, isShutdown);
+            fsm.Owner.CollisionEnterEvent.RemoveListener(CollisionAttackPlayer);
         }
 
         protected override void OnDestroy(IFsm<EntityEnemy> fsm)
@@ -46,6 +50,20 @@ namespace p1
                 moveInput = entityTarget.transform.position - fsm.Owner.transform.position;
                 moveInput.Normalize();
                 fsm.Owner.transform.position += moveInput * (fsm.Owner.EntityDataEnemy.MoveSpeed * elapseSeconds);
+            }
+        }
+        
+        private void CollisionAttackPlayer(Collision2D other)
+        {
+            if (other.gameObject.CompareTag("Player") && _owner.AttackTimer.Time == 0)
+            {
+                other.gameObject.GetComponent<EntityPlayer>().GetDamage(10);
+                _owner.AttackTimer.CanRun = true;
+            }
+
+            if (other.gameObject.CompareTag("Weapon"))
+            {
+                Debug.Log("hit weapon");
             }
         }
     }   

@@ -8,6 +8,7 @@ namespace p1
     public class StateEnemyKnockBack : FsmState<EntityEnemy>
     {
         private GameTimer _knockBackTimer;
+        private EntityEnemy _owner;
         protected override void OnInit(IFsm<EntityEnemy> fsm)
         {
             base.OnInit(fsm);
@@ -16,6 +17,8 @@ namespace p1
         protected override void OnEnter(IFsm<EntityEnemy> fsm)
         {
             base.OnEnter(fsm);
+            _owner = fsm.Owner;
+            _owner.CollisionEnterEvent.AddListener(CollisionAttackPlayer);
             _knockBackTimer = new GameTimer(fsm.Owner.KnockBackTime);
         }
 
@@ -33,12 +36,14 @@ namespace p1
             // TODO:优化击退表现
             Vector3 dir = fsm.Owner.transform.position - fsm.Owner.EntityTarget.transform.position;
             dir.Normalize();
-            fsm.Owner.transform.position += dir * (fsm.Owner.EntityDataEnemy.MoveSpeed * 4f * elapseSeconds);
+            fsm.Owner.transform.position += dir * (fsm.Owner.EntityDataEnemy.MoveSpeed * 5f * elapseSeconds);
         }
 
         protected override void OnLeave(IFsm<EntityEnemy> fsm, bool isShutdown)
         {
             base.OnLeave(fsm, isShutdown);
+            fsm.Owner.CollisionEnterEvent.RemoveListener(CollisionAttackPlayer);
+
         }
 
         protected override void OnDestroy(IFsm<EntityEnemy> fsm)
@@ -46,6 +51,18 @@ namespace p1
             base.OnDestroy(fsm);
         }
         
-        
+        private void CollisionAttackPlayer(Collision2D other)
+        {
+            if (other.gameObject.CompareTag("Player") && _owner.AttackTimer.Time == 0)
+            {
+                other.gameObject.GetComponent<EntityPlayer>().GetDamage(10);
+                _owner.AttackTimer.CanRun = true;
+            }
+
+            if (other.gameObject.CompareTag("Weapon"))
+            {
+                Debug.Log("hit weapon");
+            }
+        }
     }   
 }
