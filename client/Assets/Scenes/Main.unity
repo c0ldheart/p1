@@ -215,8 +215,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74ee0d191dd1944a194f25f56ee502ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NumberToSpawn: {fileID: 1821777589557541348, guid: aefafe58059bc4186b549de10668cdec, type: 3}
-  NumberCanvas: {fileID: 1246474643}
+  m_numberToSpawn: {fileID: 1821777589557541348, guid: aefafe58059bc4186b549de10668cdec, type: 3}
+  m_numberCanvas: {fileID: 1246474643}
+  m_damageNumberItemList: []
 --- !u!1 &901282971
 GameObject:
   m_ObjectHideFlags: 0
