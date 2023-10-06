@@ -109,11 +109,14 @@ namespace p1
         protected override void OnHide(bool isShutdown, object userData)
         {
             base.OnHide(isShutdown, userData);
+            var states = _fsm.GetAllStates();
             GameEntry.GetComponent<FsmComponent>().DestroyFsm(_fsm);
-            foreach (var state in _fsm.GetAllStates())
+
+            foreach (var state in states)
             {
                 ReferencePool.Release((IReference)state);
             }
+
         }
     }
     

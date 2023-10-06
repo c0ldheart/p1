@@ -32,6 +32,13 @@ namespace GameUtils
             set => _maxTime = value;
         }
 
+        public static GameTimer Create(float maxTime, bool canRun = true)
+        {
+            GameTimer timer = ReferencePool.Acquire<GameTimer>();
+            timer.MaxTime = maxTime;
+            timer.CanRun = canRun;
+            return timer;
+        }
         public GameTimer()
         {
             _maxTime = 0f;

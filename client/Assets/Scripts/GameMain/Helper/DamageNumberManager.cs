@@ -40,11 +40,8 @@ namespace p1
         public void UnSpawnDamageNumber(DamageNumberItem damageNumberItem)
         {
             damageNumberItem.gameObject.SetActive(false);
-            Debug.Log(m_damageNumberItemList.Count.ToString());
-
             m_damageNumberItemList.Remove(damageNumberItem);
             m_damageNumbeObjectPool.Unspawn(damageNumberItem);
-            Debug.Log(m_damageNumberItemList.Count.ToString());
         }
         
         private DamageNumberItem CreateDamageNumberItem(Vector3 position)

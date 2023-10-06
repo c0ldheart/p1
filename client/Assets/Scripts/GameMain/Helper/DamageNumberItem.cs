@@ -16,8 +16,7 @@ namespace p1
         public GameTimer LifeTimer ;
         void Start()
         {
-            LifeTimer = ReferencePool.Acquire<GameTimer>();
-            LifeTimer.MaxTime = LifeTime;
+            LifeTimer = GameTimer.Create(LifeTime);
         }
 
         void Update()
