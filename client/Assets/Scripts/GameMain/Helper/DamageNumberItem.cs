@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using GameFramework;
+using GameFramework.ObjectPool;
 using GameUtils;
 using TMPro;
 using UnityEngine;
 
 namespace p1
 {
-    public class DamageNumber : MonoBehaviour
+    public class DamageNumberItem : MonoBehaviour
     {
         public TMP_Text DamagerNumberText;
         public float LifeTime = 0.5f;
@@ -14,14 +16,15 @@ namespace p1
         public GameTimer LifeTimer ;
         void Start()
         {
-            LifeTimer = new GameTimer(LifeTime);
+            LifeTimer = ReferencePool.Acquire<GameTimer>();
+            LifeTimer.MaxTime = LifeTime;
         }
 
         void Update()
         {
             LifeTimer.UpdateAsFinish(Time.deltaTime, () =>
             {
-                Destroy(gameObject);
+                DamageNumberManager.Instance.UnSpawnDamageNumber(this);
             });
             transform.position += Vector3.up * FloatSpeed * Time.deltaTime;
         }
@@ -30,6 +33,8 @@ namespace p1
         {
             DamagerNumberText.text = damageDisplay.ToString();
         }
-    }   
+    }
+    
+
 }
 

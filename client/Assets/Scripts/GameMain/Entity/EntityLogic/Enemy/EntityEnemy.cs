@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using GameFramework;
 using GameFramework.Fsm;
 using UnityEngine;
 using UnityGameFramework.Runtime;
@@ -42,11 +43,12 @@ namespace p1
             transform.position = EntityDataEnemy.Position +
                                  new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0f);
             
-            // TODO: 考虑将诸如 newState()使用引用池技术, 且使得Entity在对象池复用FSM。
+            //  TODO：使得Entity在对象池复用FSM。
             List<FsmState<EntityEnemy>> stateList = new List<FsmState<EntityEnemy>>()
             {
-                new StateEnemyTrack(),
-                new StateEnemyKnockBack(),
+                // GF引用池式实例化状态类
+                StateEnemyTrack.Create(), 
+                StateEnemyKnockBack.Create(),
             };
             _fsm = GameEntry.GetComponent<FsmComponent>().CreateFsm((SERIAL_ID++).ToString(), this, stateList);
             _fsm.Start<StateEnemyTrack>();
@@ -54,7 +56,7 @@ namespace p1
 
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
         {
-            // CheckDistanceAndDestroy();
+            CheckDistanceAndDestroy();
             
             _attackTimer.UpdateAsFinish(elapseSeconds, () =>
             {
@@ -108,6 +110,10 @@ namespace p1
         {
             base.OnHide(isShutdown, userData);
             GameEntry.GetComponent<FsmComponent>().DestroyFsm(_fsm);
+            foreach (var state in _fsm.GetAllStates())
+            {
+                ReferencePool.Release((IReference)state);
+            }
         }
     }
     

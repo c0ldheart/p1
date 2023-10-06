@@ -1,4 +1,5 @@
 using System;
+using GameFramework;
 
 namespace GameUtils
 {
@@ -10,7 +11,7 @@ namespace GameUtils
         public static float deltaTime { get; set; } = FrameTime / 1000f;
     }
 #endif
-    public class GameTimer
+    public class GameTimer : IReference
     {
         private float _maxTime;
         private float _time;
@@ -31,6 +32,12 @@ namespace GameUtils
             set => _maxTime = value;
         }
 
+        public GameTimer()
+        {
+            _maxTime = 0f;
+            _time = 0f;
+            _canRun = true;
+        }
         public GameTimer(float maxTime, bool canRun = true)
         {
             if (maxTime <= 0)
@@ -111,6 +118,14 @@ namespace GameUtils
         public void OnRepeat(Action onRepeat)
         {
             _onFinish = onRepeat;
+        }
+
+        public void Clear()
+        {
+            _maxTime = 0f;
+            _time = 0f;
+            _onFinish = null;
+            _canRun = true;
         }
     }
 }

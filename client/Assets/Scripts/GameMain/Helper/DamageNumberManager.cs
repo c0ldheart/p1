@@ -1,19 +1,29 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using GameFramework;
+using GameFramework.ObjectPool;
 using GameUtils;
 using UnityEngine;
+using UnityGameFramework.Runtime;
+using Object = UnityEngine.Object;
 
 namespace p1
 {
     public class DamageNumberManager : GlobalSingleton<DamageNumberManager>
     {
-        public DamageNumber NumberToSpawn;
-        public Transform NumberCanvas;
+        [SerializeField]
+        private DamageNumberItem m_numberToSpawn;
+        [SerializeField]
+        private Transform m_numberCanvas;
+
+        private IObjectPool<DamageNumberObject> m_damageNumbeObjectPool;
+        [SerializeField]
+        public List<DamageNumberItem> m_damageNumberItemList = new ();
         // Start is called before the first frame update
         void Start()
-        {
-        
+        {   
+            m_damageNumbeObjectPool = GameEntry.GetComponent<ObjectPoolComponent>().CreateSingleSpawnObjectPool<DamageNumberObject>("DamageNumber", 10, 10);
         }
 
         // Update is called once per frame
@@ -24,9 +34,55 @@ namespace p1
         
         public void SpawnDamageNumber(float damage, Vector3 position)
         {
-            DamageNumber damageNumber = Instantiate(NumberToSpawn, position, Quaternion.identity, NumberCanvas);
-            damageNumber.SetUp(Mathf.RoundToInt(damage));
+            DamageNumberItem damageNumberItem = CreateDamageNumberItem(position);
+            damageNumberItem.SetUp(Mathf.RoundToInt(damage));
         }
+        public void UnSpawnDamageNumber(DamageNumberItem damageNumberItem)
+        {
+            damageNumberItem.gameObject.SetActive(false);
+            Debug.Log(m_damageNumberItemList.Count.ToString());
+
+            m_damageNumberItemList.Remove(damageNumberItem);
+            m_damageNumbeObjectPool.Unspawn(damageNumberItem);
+            Debug.Log(m_damageNumberItemList.Count.ToString());
+        }
+        
+        private DamageNumberItem CreateDamageNumberItem(Vector3 position)
+        {
+            DamageNumberItem damageNumberItem = null;
+            DamageNumberObject damageNumberObject = m_damageNumbeObjectPool.Spawn();
+            if (damageNumberObject != null)
+            {
+                damageNumberItem = (DamageNumberItem)damageNumberObject.Target;
+                damageNumberItem.gameObject.SetActive(true);
+                damageNumberItem.transform.position = position;
+                damageNumberItem.LifeTimer.Reset();
+            }
+            else
+            {
+                damageNumberItem = Instantiate(m_numberToSpawn, position, Quaternion.identity, m_numberCanvas);
+                m_damageNumbeObjectPool.Register(DamageNumberObject.Create(damageNumberItem), true);
+            }
+
+            m_damageNumberItemList.Add(damageNumberItem);
+            return damageNumberItem;
+        }
+        
     }   
+    public class DamageNumberObject : ObjectBase
+    {
+        public static DamageNumberObject Create(object target)
+        {
+            DamageNumberObject damageNumberObject = ReferencePool.Acquire<DamageNumberObject>(); // 从引用池获取一个IReference对象
+            damageNumberObject.Initialize(target);
+            return damageNumberObject;
+        }
+        
+
+        protected override void Release(bool isShutdown)
+        {
+            Object.Destroy(((DamageNumberItem)Target).gameObject);
+        }
+    }
 }
 

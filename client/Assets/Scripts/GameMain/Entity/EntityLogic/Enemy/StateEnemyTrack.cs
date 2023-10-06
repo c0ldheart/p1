@@ -1,12 +1,19 @@
+using GameFramework;
 using GameFramework.Fsm;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
 namespace p1
 {
-    public class StateEnemyTrack : FsmState<EntityEnemy>
+    public class StateEnemyTrack : FsmState<EntityEnemy>, IReference
     {
         private EntityEnemy _owner;
+
+        public static StateEnemyTrack Create()
+        {
+            StateEnemyTrack state = ReferencePool.Acquire<StateEnemyTrack>();
+            return state;
+        } 
         protected override void OnInit(IFsm<EntityEnemy> fsm)
         {
             base.OnInit(fsm);
@@ -65,6 +72,11 @@ namespace p1
             {
                 Debug.Log("hit weapon");
             }
+        }
+
+        public void Clear()
+        {
+            _owner = null;
         }
     }   
 }

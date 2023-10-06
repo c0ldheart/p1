@@ -1,3 +1,4 @@
+using GameFramework;
 using GameFramework.Fsm;
 using GameUtils;
 using UnityEngine;
@@ -5,10 +6,16 @@ using UnityGameFramework.Runtime;
 
 namespace p1
 {
-    public class StateEnemyKnockBack : FsmState<EntityEnemy>
+    public class StateEnemyKnockBack : FsmState<EntityEnemy>, IReference
     {
         private GameTimer _knockBackTimer;
         private EntityEnemy _owner;
+        
+        public static StateEnemyKnockBack Create()
+        {
+            StateEnemyKnockBack state = ReferencePool.Acquire<StateEnemyKnockBack>();
+            return state;
+        }
         protected override void OnInit(IFsm<EntityEnemy> fsm)
         {
             base.OnInit(fsm);
@@ -63,6 +70,12 @@ namespace p1
             {
                 Debug.Log("hit weapon");
             }
+        }
+
+        public void Clear()
+        {
+            _knockBackTimer.Reset();
+            _owner = null;
         }
     }   
 }
