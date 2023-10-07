@@ -62,7 +62,7 @@ namespace p1
             
             _entityDataPlayer.GetDamage(damage);
             EventComponent eventComponent = GameEntry.GetComponent<EventComponent>();
-            PostDamageEventArgs args = new PostDamageEventArgs(damage);
+            PostDamageEventArgs args = PostDamageEventArgs.Create(damage);
             eventComponent.Fire(this, args);
         }
         

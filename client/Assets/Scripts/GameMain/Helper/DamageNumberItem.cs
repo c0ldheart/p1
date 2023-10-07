@@ -16,7 +16,7 @@ namespace p1
         public GameTimer LifeTimer ;
         void Start()
         {
-            LifeTimer = GameTimer.Create(LifeTime);
+            LifeTimer = new GameTimer(LifeTime);
         }
 
         void Update()

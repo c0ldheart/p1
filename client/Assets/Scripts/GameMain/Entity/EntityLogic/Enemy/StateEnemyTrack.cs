@@ -65,7 +65,7 @@ namespace p1
             if (other.gameObject.CompareTag("Player") && _owner.AttackTimer.Time == 0)
             {
                 other.gameObject.GetComponent<EntityPlayer>().GetDamage(10);
-                _owner.AttackTimer.CanRun = true;
+                _owner.IsAttacking = true;
             }
 
             if (other.gameObject.CompareTag("Weapon"))

@@ -78,7 +78,12 @@ namespace p1
 
         protected override void Release(bool isShutdown)
         {
-            Object.Destroy(((DamageNumberItem)Target).gameObject);
+            var item = (DamageNumberItem)Target;
+            if (item == null)
+            {
+                return;
+            }
+            Object.Destroy(item.gameObject);
         }
     }
 }

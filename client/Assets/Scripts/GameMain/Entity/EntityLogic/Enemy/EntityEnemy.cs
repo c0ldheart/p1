@@ -21,7 +21,12 @@ namespace p1
         public Entity EntityTarget => entityTarget;
         public float KnockBackTime = 0f;
         public UnityEvent<Collision2D> CollisionEnterEvent = new();
-
+        private bool m_IsAttacking = false;
+        public bool IsAttacking
+        {
+            get => m_IsAttacking;
+            set => m_IsAttacking = value;
+        }
         public GameTimer AttackTimer
         {
             get => _attackTimer;
@@ -57,12 +62,16 @@ namespace p1
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
         {
             CheckDistanceAndDestroy();
-            
-            _attackTimer.UpdateAsFinish(elapseSeconds, () =>
+
+            if (m_IsAttacking)
             {
-                _attackTimer.Reset();
-                _attackTimer.CanRun = false;
-            });
+                _attackTimer.UpdateAsFinish(elapseSeconds, () =>
+                {
+                    _attackTimer.Reset();
+                    m_IsAttacking = false;
+                });
+            }
+
             // MoveControl(elapseSeconds);
         }
 

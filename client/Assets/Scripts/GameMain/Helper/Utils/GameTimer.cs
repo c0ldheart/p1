@@ -16,14 +16,13 @@ namespace GameUtils
         private float _maxTime;
         private float _time;
         private Action _onFinish;
-        private bool _canRun = false;
         public bool IsFinished => _time >= _maxTime;
         public bool IsRunning => _time < _maxTime;
-        public bool CanRun
-        {
-            get => _canRun;
-            set => _canRun = value;
-        }
+        // public bool CanRun
+        // {
+        //     get => _canRun;
+        //     set => _canRun = value;
+        // }
         public float Time => _time;
 
         public float MaxTime
@@ -32,18 +31,16 @@ namespace GameUtils
             set => _maxTime = value;
         }
 
-        public static GameTimer Create(float maxTime, bool canRun = true)
+        public static GameTimer Create(float maxTime)
         {
             GameTimer timer = ReferencePool.Acquire<GameTimer>();
             timer.MaxTime = maxTime;
-            timer.CanRun = canRun;
             return timer;
         }
         public GameTimer()
         {
             _maxTime = 0f;
             _time = 0f;
-            _canRun = true;
         }
         public GameTimer(float maxTime, bool canRun = true)
         {
@@ -53,7 +50,6 @@ namespace GameUtils
             }
             _maxTime = maxTime;
             _time = 0f;
-            _canRun = canRun;
         }
 
         public void Reset()
@@ -63,10 +59,6 @@ namespace GameUtils
 
         public GameTimer UpdateAsFinish(float delta, Action onFinish)
         {
-            if (!_canRun)
-            {
-                return this;
-            }
             if (!IsFinished)
             {
                 _time += delta;
@@ -84,10 +76,6 @@ namespace GameUtils
 
         public GameTimer UpdateAsFinish(float delta)
         {
-            if (!_canRun)
-            {
-                return this;
-            }
             if (!IsFinished)
             {
                 _time += delta;
@@ -132,7 +120,6 @@ namespace GameUtils
             _maxTime = 0f;
             _time = 0f;
             _onFinish = null;
-            _canRun = true;
         }
     }
 }

@@ -60,8 +60,6 @@ namespace p1
         
         private void OnTriggerEnter2D(Collider2D other)
         {
-            Debug.Log("hit enemy");
-        
             if (other.CompareTag("Enemy"))
             {
                 // damage
