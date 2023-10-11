@@ -7,5 +7,6 @@ namespace p1
         Enemy = 2,
         Camera = 3,
         Weapon = 4,
+        Experience = 5,
     }
 }

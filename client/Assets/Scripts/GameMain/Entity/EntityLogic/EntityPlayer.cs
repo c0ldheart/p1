@@ -12,9 +12,9 @@ namespace p1
 {
     public class EntityPlayer : EntityLogic
     {
-        private EntityDataPlayer _entityDataPlayer;
+        private EntityDataPlayer m_EntityDataPlayer;
         
-        public EntityDataPlayer EntityDataPlayer => _entityDataPlayer;
+        public EntityDataPlayer EntityDataPlayer => m_EntityDataPlayer;
         protected override void OnInit(object userData)
         {
             base.OnInit(userData);
@@ -24,21 +24,25 @@ namespace p1
         {
             base.OnShow(userData);
 
-            _entityDataPlayer = userData as EntityDataPlayer;
-            if (_entityDataPlayer == null)
+            m_EntityDataPlayer = userData as EntityDataPlayer;
+            if (m_EntityDataPlayer == null)
             {
-                Log.Error("_entityDataPlayer data is invalid.");
+                Log.Error("m_EntityDataPlayer data is invalid.");
                 return;
             }
 
-            _entityDataPlayer.Anim = GetComponent<Animator>();
+            m_EntityDataPlayer.Anim = GetComponent<Animator>();
         }
 
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                _entityDataPlayer.GetDamage(10);
+                m_EntityDataPlayer.GetDamage(10);
+            }
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                m_EntityDataPlayer.GetExperience(10);
             }
             MoveControl(elapseSeconds);
         }
@@ -48,24 +52,34 @@ namespace p1
             moveInput.x = Input.GetAxisRaw("Horizontal");
             moveInput.y = Input.GetAxisRaw("Vertical");
             moveInput.Normalize();
-            transform.position += moveInput * (_entityDataPlayer.MoveSpeed * elapseSeconds);
-            _entityDataPlayer.Anim.SetBool("isMoving", moveInput != Vector3.zero);
+            transform.position += moveInput * (m_EntityDataPlayer.MoveSpeed * elapseSeconds);
+            m_EntityDataPlayer.Anim.SetBool("isMoving", moveInput != Vector3.zero);
         }
         
         public void GetDamage(float damage)
         {
-            if (_entityDataPlayer == null)
+            if (m_EntityDataPlayer == null)
             {
-                Debug.LogError("in GetDamage : _entityDataPlayer is null");
+                Debug.LogError("in GetDamage : m_EntityDataPlayer is null");
                 return;
             }
             
-            _entityDataPlayer.GetDamage(damage);
+            m_EntityDataPlayer.GetDamage(damage);
             EventComponent eventComponent = GameEntry.GetComponent<EventComponent>();
             PostDamageEventArgs args = PostDamageEventArgs.Create(damage);
             eventComponent.Fire(this, args);
         }
-        
+
+        public void GetExp(float exp)
+        {
+            if (m_EntityDataPlayer == null)
+            {
+                Debug.LogError("in GetExp : m_EntityDataPlayer is null");
+                return;
+            }
+            
+            m_EntityDataPlayer.GetExperience(exp);
+        }
     }
     
 }

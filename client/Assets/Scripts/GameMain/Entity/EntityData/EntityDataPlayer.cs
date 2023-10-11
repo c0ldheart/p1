@@ -12,8 +12,10 @@ namespace p1
         [SerializeField]
         private Animator _anim;
 
+        public FloatNumeric Exp { get; private set; } = new FloatNumeric();
+        public FloatNumeric PickUpRange { get; private set; } = new FloatNumeric();
         public float MoveSpeed => _moveSpeed;
-
+    
         public Animator Anim
         {
             set => _anim = value;
@@ -23,6 +25,16 @@ namespace p1
         public void GetDamage(float damage)
         {
             _healthPoint.Minus(Mathf.RoundToInt(damage));
+        }
+
+        public void GetExperience(float exp)
+        {
+            var floatModifier = new FloatModifier
+            {
+                Value = exp
+            };
+            Exp.AddModifier(ModifierType.Add, floatModifier);
+            Debug.Log("Now Experience : " + Exp.Value);
         }
     }
 }

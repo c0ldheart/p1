@@ -7,5 +7,6 @@ namespace p1
         Enemy1 = 2,
         Camera = 3,
         FireBall = 4,
+        Experience = 5,
     }
 }

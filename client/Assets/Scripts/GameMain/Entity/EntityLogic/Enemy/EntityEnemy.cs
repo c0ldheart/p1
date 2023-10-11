@@ -101,7 +101,10 @@ namespace p1
             EntityDataEnemy.GetDamage(damage);
             if (EntityDataEnemy.HealthPoint.Value <= 0)
             {
-                GameEntry.GetComponent<EntityComponent>().HideEntity(Entity.Id);
+                var entityComponent = GameEntry.GetComponent<EntityComponent>();
+                entityComponent.HideEntity(Entity.Id);
+                entityComponent.ShowEntity<EntityExperience>(IdGenerator.Instance.GetNextID(),
+                    GameConst.EntityPath[EnumEntity.Experience], GameConst.EntityGroup[EnumEntityGroup.Experience], new EntityDataExperience(transform.position));
             }
             // EventComponent eventComponent = GameEntry.GetComponent<EventComponent>();
             // PostDamageEventArgs args = new PostDamageEventArgs(damage);

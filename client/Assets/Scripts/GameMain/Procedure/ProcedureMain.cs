@@ -19,10 +19,11 @@ namespace p1
             Log.Info("ProcedureMain OnEnter");
 
             EntityDataPlayer entityDataPlayer = new EntityDataPlayer();
+            entityDataPlayer.PickUpRange.SetBase(5f);
             EntityComponent entityComponent = GameEntry.GetComponent<EntityComponent>();
 
             entityComponent.ShowEntity<EntityPlayer>(1, GameConst.EntityPath[EnumEntity.Player], "PlayerGroup",
-                userData: new EntityDataPlayer());
+                userData: entityDataPlayer);
             // 开局给个火球
             var fireballId = IdGenerator.Instance.GetNextID();
             entityComponent.ShowEntity<EntityFireBall>(fireballId, GameConst.EntityPath[EnumEntity.FireBall],
