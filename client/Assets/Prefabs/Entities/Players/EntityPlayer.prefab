@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: -1260277563
   m_SortingLayer: 2
   m_SortingOrder: 1
-  m_Sprite: {fileID: -1714587360, guid: 99f10abcf979e904b883da0c6922d74f, type: 3}
+  m_Sprite: {fileID: 162863899, guid: f716f51c812d95b4ba702cb57a0b2860, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -94,8 +94,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7909598939720041141}
   - component: {fileID: 3137813440040399086}
-  - component: {fileID: 3137813440040399084}
   - component: {fileID: 3137813440040399087}
+  - component: {fileID: 5372607886268235555}
   m_Layer: 0
   m_Name: EntityPlayer
   m_TagString: Player
@@ -140,22 +140,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!58 &3137813440040399084
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6322334763090525516}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.4
 --- !u!50 &3137813440040399087
 Rigidbody2D:
   serializedVersion: 4
@@ -177,3 +161,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!58 &5372607886268235555
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6322334763090525516}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.3
